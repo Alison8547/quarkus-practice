@@ -7,6 +7,7 @@ import org.com.entity.Movie;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Path("/movie")
 public class MovieResource {
@@ -49,5 +50,22 @@ public class MovieResource {
                 }).toList();
 
         return Response.ok(list).build();
+    }
+
+    @DELETE
+    @Path("/delete/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteMovie(@PathParam("id") Integer id) {
+        boolean remove = false;
+        Optional<Movie> optionalMovie = movieList.stream()
+                .filter(m -> m.getId().equals(id))
+                .findFirst();
+
+        if (optionalMovie.isPresent()) {
+            remove = movieList.remove(optionalMovie.get());
+        }
+
+        return remove ? Response.noContent().build() : Response.status(Response.Status.NOT_FOUND).build();
     }
 }
