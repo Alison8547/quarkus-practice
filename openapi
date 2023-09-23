@@ -1,8 +1,17 @@
 ---
 openapi: 3.0.3
 info:
-  title: code-practice-quarkus API
-  version: 1.0.0-SNAPSHOT
+  title: Movie API
+  description: Movie application
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+tags:
+- name: movies
+  description: Movies
+- name: Movie Resource
+  description: Movie API REST
 paths:
   /hello:
     get:
@@ -19,25 +28,40 @@ paths:
     get:
       tags:
       - Movie Resource
+      summary: Get Movies
+      description: Get all movies inside the list
+      operationId: getMovies
       responses:
         "200":
-          description: OK
+          description: Operation completed
+          content:
+            application/json: {}
   /movie/create:
     post:
       tags:
       - Movie Resource
+      summary: Create new movie
+      description: Create new Movie to add inside the list
+      operationId: createMovie
       requestBody:
+        description: Movie to create
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Movie'
+        required: true
       responses:
-        "200":
-          description: OK
+        "201":
+          description: Operation completed
+          content:
+            application/json: {}
   /movie/delete/{id}:
     delete:
       tags:
       - Movie Resource
+      summary: Delete movie
+      description: Delete a Movie inside the list
+      operationId: deleteMovie
       parameters:
       - name: id
         in: path
@@ -46,42 +70,58 @@ paths:
           format: int32
           type: integer
       responses:
-        "200":
-          description: OK
+        "204":
+          description: Movie deleted
+          content:
+            application/json: {}
+        "400":
+          description: Movie not valid
+          content:
+            application/json: {}
   /movie/size:
     get:
       tags:
       - Movie Resource
+      summary: Count Movies
+      description: Size of the list movies
+      operationId: count
       responses:
         "200":
-          description: OK
+          description: Operation completed
           content:
-            text/plain:
-              schema:
-                format: int32
-                type: integer
+            text/plain: {}
   /movie/{id}/{title}:
     put:
       tags:
       - Movie Resource
+      summary: Update movie
+      description: Update a Movie inside the list
+      operationId: updateMovie
       parameters:
       - name: id
         in: path
+        description: Movie id
         required: true
         schema:
           format: int32
           type: integer
       - name: title
         in: path
+        description: Movie title
         required: true
         schema:
           type: string
       responses:
         "200":
-          description: OK
+          description: Movie updated
+          content:
+            application/json: {}
 components:
   schemas:
     Movie:
+      description: Movie representation
+      required:
+      - title
       type: object
       properties:
         id:
