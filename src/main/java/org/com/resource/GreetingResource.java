@@ -1,4 +1,4 @@
-package org.com;
+package org.com.resource;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
