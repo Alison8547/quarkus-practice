@@ -1,0 +1,96 @@
+---
+openapi: 3.0.3
+info:
+  title: code-practice-quarkus API
+  version: 1.0.0-SNAPSHOT
+paths:
+  /hello:
+    get:
+      tags:
+      - Greeting Resource
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+  /movie:
+    get:
+      tags:
+      - Movie Resource
+      responses:
+        "200":
+          description: OK
+  /movie/create:
+    post:
+      tags:
+      - Movie Resource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+      responses:
+        "200":
+          description: OK
+  /movie/delete/{id}:
+    delete:
+      tags:
+      - Movie Resource
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          format: int32
+          type: integer
+      responses:
+        "200":
+          description: OK
+  /movie/size:
+    get:
+      tags:
+      - Movie Resource
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                format: int32
+                type: integer
+  /movie/{id}/{title}:
+    put:
+      tags:
+      - Movie Resource
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          format: int32
+          type: integer
+      - name: title
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    Movie:
+      type: object
+      properties:
+        id:
+          format: int32
+          type: integer
+        title:
+          type: string
+  securitySchemes:
+    SecurityScheme:
+      type: http
+      description: Authentication
+      scheme: basic
